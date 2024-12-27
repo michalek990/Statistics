@@ -9,7 +9,7 @@ function App() {
             <Navbar />
             <Routes>
                 <Route path="/" element={<h1 style={{ textAlign: "center", margin: "20px" }}>Witamy w aplikacji</h1>} />
-                <Route path="/charts"/>
+                <Route path="/"/>
                 <Route path="/contact" element={<ContactPage />} />
             </Routes>
         </Router>
