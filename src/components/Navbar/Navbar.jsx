@@ -20,7 +20,7 @@ function Navbar() {
             </div>
             <div className={styles.rightSide}>
                 <Link to="/"> Home </Link>
-                <Link to="/charts"> Charts </Link>
+                <Link to="/"> Charts </Link>
                 <Link to="/contact"> Contact </Link>
                 <Link onClick={logout}> Logout </Link>
             </div>
