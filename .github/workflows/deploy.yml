@@ -35,27 +35,18 @@ jobs:
       - name: Build the project
         run: SKIP_PREFLIGHT_CHECK=true npm run build
 
-      - name: Upload build folder
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: ./build
-
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Download build folder
-        uses: actions/download-artifact@v3
-        with:
-          name: build
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-
+          publish_dir: ./build 
 
   notify:
     runs-on: ubuntu-latest
