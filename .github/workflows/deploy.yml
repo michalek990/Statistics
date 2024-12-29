@@ -20,18 +20,42 @@ jobs:
       with:
         node-version: '18'
 
-    # 3. Instalacja zależności
+    # 3. Cache zależności
+    - name: Cache node_modules
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-modules-
+
+    # 4. Instalacja zależności
     - name: Install dependencies
       run: npm install --legacy-peer-deps
 
-    # 4. Budowanie aplikacji
+    # 5. Budowanie aplikacji
     - name: Build the project
       run: npm run build
 
-    # 5. Wdrożenie na GitHub Pages
+    # 6. Wdrożenie na GitHub Pages
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build
         force_orphan: true
+
+    # 7. Wysyłanie powiadomienia e-mail
+    - name: Send Email Notification
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        from: ${{ secrets.EMAIL_USERNAME }}
+        to: michal.grzeszuk.dodat@gmail.com
+        subject: Deployment Successful
+        body: |
+          Your application has been successfully built and deployed to GitHub Pages.
+          You can view it here: https://<twoja-nazwa-uzytkownika>.github.io/<nazwa-repozytorium>
