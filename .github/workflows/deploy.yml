@@ -58,5 +58,5 @@ jobs:
           subject: Deployment Successful
           to: michal.grzeszuk.dodat@gmail.com
           from: Deploy Bot <${{ secrets.MAIL_USERNAME }}>
-          html_body: file://html_body_template.html
+          html_body: file://README.html
 
