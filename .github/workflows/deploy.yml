@@ -3,88 +3,35 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - develop
+      - develop # Akcja uruchomi się po pushu na branch develop
 
 jobs:
-  install:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
-  build:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Restore node_modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
-      - name: Build the project
-        run: SKIP_PREFLIGHT_CHECK=true npm run build
-
-      - name: Generate Documentation
-        run: npm run docs
-        continue-on-error: true # Ignoruje błędy w przypadku niepowodzenia generowania dokumentacji
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
+    # 1. Checkout kodu
     - name: Checkout code
       uses: actions/checkout@v3
-      with:
-        persist-credentials: false
 
+    # 2. Ustawienie Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    # 3. Instalacja zależności
+    - name: Install dependencies
+      run: npm install --legacy-peer-deps
+
+    # 4. Budowanie aplikacji
+    - name: Build the project
+      run: npm run build
+
+    # 5. Wdrożenie na GitHub Pages
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build
         force_orphan: true
-        enable_debug_log: true
-
-
-  notify:
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - name: Send Email Notification
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{ secrets.EMAIL_USERNAME }}
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          from: ${{ secrets.EMAIL_USERNAME }} 
-          to: michal.grzeszuk.dodat@gmail.com
-          subject: Build and Deploy Completed
-          body: |
-            Your application has been successfully built and deployed to GitHub Pages. 
-            Check the website here: https://michalek990.github.io/Statistics/
