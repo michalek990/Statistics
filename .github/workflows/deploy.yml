@@ -47,16 +47,16 @@ jobs:
 
     # 7. Wysyłanie powiadomienia e-mail
     - name: Send Email Notification
-      uses: ajkim-dev/send-email-action@v2
+      uses: zidize/send-email@v1.1.0
       with:
-        smtp-server: smtp.gmail.com
-        smtp-port: 465
-        smtp-username: ${{ secrets.EMAIL_USERNAME }}
-        smtp-password: ${{ secrets.EMAIL_PASSWORD }}
+        host: smtp.gmail.com
+        port: 465
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
         from: ${{ secrets.EMAIL_USERNAME }}
         to: michal.grzeszuk.dodat@gmail.com
         subject: Deployment Successful
-        html-body: |
+        body-html: |
           <!DOCTYPE html>
           <html>
             <head>
@@ -108,3 +108,4 @@ jobs:
               </div>
             </body>
           </html>
+    
