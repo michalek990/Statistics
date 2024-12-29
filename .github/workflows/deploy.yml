@@ -68,6 +68,8 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build
         force_orphan: true
+        enable_debug_log: true
+
 
   notify:
     runs-on: ubuntu-latest
