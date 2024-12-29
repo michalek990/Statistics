@@ -47,17 +47,16 @@ jobs:
 
     # 7. Wysyłanie powiadomienia e-mail
     - name: Send Email Notification
-      uses: dawidd6/action-send-mail@v3
+      uses: ajkim-dev/send-email-action@v2
       with:
-        server_address: smtp.gmail.com
-        server_port: 465
-        username: ${{ secrets.EMAIL_USERNAME }}
-        password: ${{ secrets.EMAIL_PASSWORD }}
+        smtp-server: smtp.gmail.com
+        smtp-port: 465
+        smtp-username: ${{ secrets.EMAIL_USERNAME }}
+        smtp-password: ${{ secrets.EMAIL_PASSWORD }}
         from: ${{ secrets.EMAIL_USERNAME }}
         to: michal.grzeszuk.dodat@gmail.com
         subject: Deployment Successful
-        content_type: text/html
-        body: |
+        html-body: |
           <!DOCTYPE html>
           <html>
             <head>
@@ -109,4 +108,3 @@ jobs:
               </div>
             </body>
           </html>
-    
