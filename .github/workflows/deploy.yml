@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - develop # Akcja uruchomi się po pushu na branch develop
+      - develop
 
 jobs:
   build-and-deploy:
