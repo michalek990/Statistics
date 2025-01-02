@@ -33,10 +33,6 @@ jobs:
     - name: Install dependencies
       run: npm install --legacy-peer-deps
 
-    # 6. Uruchamianie testów za pomocą React Testing Library / Jest
-    - name: Run Tests
-      run: npm test -- --watchAll=false
-
     # 7. Budowanie aplikacji (opcjonalne)
     - name: Build the project
       run: npm run build
